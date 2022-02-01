@@ -13,10 +13,29 @@
     />
     <link rel="stylesheet" href="./css/style.css" />
   </head>
+
   <body>
-    <header class="header">
-      <h1 class="header__title">Shopping list</h1>
-    </header>
+    <div class="wrapper container py-5">
+      <header class="header row mb-4">
+        <h1 class="header__title text-center">Shopping list</h1>
+      </header>
+      <form class="form py-5 px-3">
+        <div class="form__content row justify-content-between">
+          <div class="col-md-8 form-outline">
+            <input
+              type="text"
+              class="form__input form-control col-md-10"
+              value="Product's name"
+            />
+          </div>
+          <div class="col-md-2">
+            <button class="form__button btn btn-primary col-12" type="submit">
+              add
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
     <script src="./js/script.js"></script>
   </body>
 </html>
