@@ -65,3 +65,31 @@ li {
 .product__input {
 	background-color: #dcfcdc;
 }
+
+.product__quantity {
+	display: block;
+	border: 1px solid #9bf5ef;
+	border-radius: 25px;
+	max-width: 55px;
+	background-color: #dcfcdc;
+}
+
+.icons__item {
+	background-color: transparent;
+	border: none;
+}
+
+.icons__link {
+	display: block;
+}
+
+.icons__link svg {
+	max-width: 30px;
+	max-height: 30px;
+	fill: #0d6efd;
+	transition: all 0.3s ease;
+}
+
+.icons__link svg:hover {
+	fill: #dcfcdc;
+}
