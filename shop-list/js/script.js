@@ -6,18 +6,17 @@ const productInput = document.querySelector('.form__input'),
 	productsList = document.querySelector('.products__list');
 
 const data = [
-	{ name: 'apple', quantity: 1, bought: false, id: 1 },
-	{ name: 'potato', quantity: 1, bought: false, id: 2 },
-	{ name: 'bread', quantity: 1, bought: false, id: 3 },
+	{ name: 'apple', quantity: 1, bought: false, id: 1, visible: false },
+	{ name: 'potato', quantity: 1, bought: false, id: 2, visible: false },
+	{ name: 'bread', quantity: 1, bought: false, id: 3, visible: false },
 ];
 
 let maxId = 4;
 
 let products = [...data];
-let newProducts = [];
 
 allButton.addEventListener('click', () => {
-	showAllProducts(products, newProducts, productsList);
+	showAllProducts(products, productsList);
 });
 
 addButton.addEventListener('click', e => {
@@ -25,23 +24,18 @@ addButton.addEventListener('click', e => {
 	addNewProduct(productInput, productsList);
 });
 
-function showAllProducts(dataArr, newProdArr, element) {
-	let allProducts = [];
-
-	if (newProdArr.length) {
-		allProducts = [...newProdArr, ...dataArr];
-	} else {
-		allProducts = [...dataArr];
-	}
+function showAllProducts(arr, element) {
+	clearList(productsList);
 
 	if (productsList.childElementCount) {
 		const visibleProd = document.querySelectorAll('.product__item');
-		if (visibleProd.length === allProducts.length) {
+		if (visibleProd.length === arr.length) {
 			return;
 		}
 	}
 
-	allProducts.forEach(item => {
+	arr.forEach(item => {
+		item.visible = true;
 		element.insertAdjacentHTML('beforeend', createElement(item));
 	});
 }
@@ -67,12 +61,6 @@ function createElement(obj) {
 	return li;
 }
 
-// function changeQuantity(quantity, element) {
-// 	if (element.value !== quantity) {
-// 		element.value = quantity;
-// 	}
-// }
-
 function addNewProduct(input, element) {
 	clearList(productsList);
 	maxId++;
@@ -83,14 +71,22 @@ function addNewProduct(input, element) {
 		quantity: 1,
 		bought: false,
 		id: maxId,
+		visible: true,
 	};
 
-	newProducts.unshift(newProduct);
-	newProducts.forEach(item => {
-		element.insertAdjacentHTML('beforeend', createElement(item));
+	products.unshift(newProduct);
+	products.forEach(item => {
+		if (item.visible === true) {
+			element.insertAdjacentHTML('beforeend', createElement(item));
+		}
 	});
+	clearInput(productInput);
 }
 
-function clearList(element) {
-	element.innerHTML = '';
+function clearList(ul) {
+	ul.innerHTML = '';
+}
+
+function clearInput(input) {
+	input.value = '';
 }
