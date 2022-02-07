@@ -6,22 +6,30 @@ const productInput = document.querySelector('.form__input'),
 	productsList = document.querySelector('.products__list');
 
 const data = [
-	{ name: 'apple', quantity: 1, bought: false, id: 1, visible: false },
+	{ name: 'apple', quantity: 1, bought: true, id: 1, visible: false },
 	{ name: 'potato', quantity: 1, bought: false, id: 2, visible: false },
-	{ name: 'bread', quantity: 1, bought: false, id: 3, visible: false },
+	{ name: 'bread', quantity: 1, bought: true, id: 3, visible: false },
 ];
 
 let maxId = 4;
 
 let products = [...data];
+// let purchasedProducts = [];
 
 allButton.addEventListener('click', () => {
-	showAllProducts(products, productsList);
+	showAllProducts(sortsProducts(products), productsList);
 });
 
 addButton.addEventListener('click', e => {
 	e.preventDefault();
 	addNewProduct(productInput, productsList);
+});
+
+productsList.addEventListener('click', e => {
+	let target = e.target;
+	if (target.classList.contains('product__input')) {
+		if()
+	}
 });
 
 function showAllProducts(arr, element) {
@@ -66,6 +74,7 @@ function addNewProduct(input, element) {
 	maxId++;
 
 	const productName = input.value.toLowerCase().trim();
+	if (!productName) return;
 	const newProduct = {
 		name: productName,
 		quantity: 1,
@@ -81,6 +90,27 @@ function addNewProduct(input, element) {
 		}
 	});
 	clearInput(productInput);
+}
+
+// function checksForBought(arr) {
+// 	return (purchasedProducts = arr.filter(product => product.bought));
+// }
+
+function sortsProducts(arr) {
+	let purchasedProducts = [];
+	let noPurchasedProducts = [];
+	let sortedProducts = [];
+
+	for (const product of arr) {
+		if (product.bought === true) {
+			purchasedProducts.unshift(product);
+		} else {
+			noPurchasedProducts.unshift(product);
+		}
+	}
+
+	sortedProducts = [...noPurchasedProducts, ...purchasedProducts];
+	return sortedProducts;
 }
 
 function clearList(ul) {
