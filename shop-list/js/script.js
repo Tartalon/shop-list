@@ -11,10 +11,9 @@ const data = [
   { name: "bread", quantity: 1, bought: true, id: 3, visible: false },
 ];
 
-let maxId = 4;
+let maxId = 3;
 
 let products = [...data];
-// let purchasedProducts = [];
 
 allButton.addEventListener("click", () => {
   showAllProducts(sortsProducts(products), productsList);
@@ -24,7 +23,7 @@ addButton.addEventListener("click", (e) => {
   e.preventDefault();
   if (!productInput.value) return;
   sortsProducts(products);
-  addNewProduct(productInput, productsList);
+  addNewProduct(productInput);
 });
 
 productsList.addEventListener("click", (e) => {
@@ -51,8 +50,9 @@ function showAllProducts(arr, element) {
 
   arr.forEach((item) => {
     item.visible = true;
-    element.insertAdjacentHTML("beforeend", createElement(item));
   });
+
+  render(arr, element);
 }
 
 function createElement(obj) {
@@ -63,6 +63,7 @@ function createElement(obj) {
           class="form-check-input me-3 product__input"
           type="checkbox"
           aria-label="buy"
+          ${obj.bought ? "checked" : ""}
         />
         ${obj.name}
       </div>
@@ -76,42 +77,53 @@ function createElement(obj) {
   return li;
 }
 
-function addNewProduct(input, element) {
+function addNewProduct(input) {
   clearList(productsList);
-  maxId++;
-
   const productName = input.value.toLowerCase().trim();
-  const newProduct = {
-    name: productName,
+  let arrWithNewProd = [];
+
+  for (let i = 0; i < products.length; i++) {
+    if (products[i].name === productName) {
+      products[i].quantity++;
+    } else {
+      arrWithNewProd.push(products[i]);
+      if (i === products.length - 1) {
+        maxId++;
+        products.push(createNewProduct(productName));
+      }
+    }
+  }
+
+  sortsProducts(products);
+  render(products, productsList);
+  clearInput(productInput);
+}
+
+function createNewProduct(name) {
+  return {
+    name: name,
     quantity: 1,
     bought: false,
     id: maxId,
     visible: true,
   };
+}
 
-  products.unshift(newProduct);
-  products.forEach((item) => {
+function render(arr, element) {
+  arr.forEach((item) => {
     if (item.visible === true) {
       element.insertAdjacentHTML("beforeend", createElement(item));
     }
   });
-  clearInput(productInput);
 }
 
 function sortsProducts(arr) {
-  let purchasedProducts = [];
-  let noPurchasedProducts = [];
-  let sortedProducts = [];
-
-  for (const product of arr) {
-    if (product.bought === true) {
-      purchasedProducts.unshift(product);
-    } else {
-      noPurchasedProducts.unshift(product);
+  let sortedProducts = arr.sort((element) => {
+    if (element.bought < 1) {
+      return -1;
     }
-  }
+  });
 
-  sortedProducts = [...noPurchasedProducts, ...purchasedProducts];
   return sortedProducts;
 }
 
