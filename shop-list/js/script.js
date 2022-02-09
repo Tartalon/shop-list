@@ -30,15 +30,29 @@ addButton.addEventListener('click', e => {
 
 productsList.addEventListener('click', e => {
 	let target = e.target;
+	const prodName = target.parentNode.textContent.trim();
 	if (target.classList.contains('product__input')) {
-		const prodName = target.parentNode.textContent.trim();
 		for (const product of products) {
 			if (product.name === prodName) {
 				product.bought = target.checked;
 			}
 		}
 	}
+
+	if (target.classList.contains('product__quantity')) {
+		const quantity = document.querySelector('.product__quantity').value;
+		// for (const product of products) {
+		// 	if (product.name === prodName) {
+		// 		product.quantity = +quantity;
+		// 	}
+		// }
+		console.log(target.parentNode);
+	}
+
+	console.log(products);
 });
+
+// function changeChecked(product) {}
 
 function showAllProducts(arr, element) {
 	clearList(productsList);
