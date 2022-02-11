@@ -12,8 +12,14 @@ const data = [
 ];
 
 let maxId = 3;
+let products = [];
 
-let products = [...data];
+if (sessionStorage.getItem('products')) {
+	products = JSON.parse(sessionStorage.getItem('products'));
+	sortsProducts(products);
+} else {
+	products = [...data];
+}
 
 allButton.addEventListener('click', () => {
 	showAllProducts(sortsProducts(products), productsList);
@@ -26,6 +32,8 @@ addButton.addEventListener('click', e => {
 	addNewProduct(productInput);
 	sortsProducts(products);
 	render(products, productsList);
+
+	setStorage(products);
 });
 
 productsList.addEventListener('click', e => {
@@ -50,6 +58,7 @@ productsList.addEventListener('click', e => {
 			}
 		}
 	}
+	setStorage(products);
 });
 
 function showAllProducts(arr, element) {
@@ -147,4 +156,8 @@ function clearList(ul) {
 
 function clearInput(input) {
 	input.value = '';
+}
+
+function setStorage(arr) {
+	sessionStorage.setItem('products', JSON.stringify(arr));
 }
