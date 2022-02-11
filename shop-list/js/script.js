@@ -30,8 +30,9 @@ addButton.addEventListener('click', e => {
 
 productsList.addEventListener('click', e => {
 	let target = e.target;
-	const prodName = target.parentNode.textContent.trim();
+
 	if (target.classList.contains('product__input')) {
+		const prodName = target.parentNode.textContent.trim();
 		for (const product of products) {
 			if (product.name === prodName) {
 				product.bought = target.checked;
@@ -40,19 +41,16 @@ productsList.addEventListener('click', e => {
 	}
 
 	if (target.classList.contains('product__quantity')) {
-		const quantity = document.querySelector('.product__quantity').value;
-		// for (const product of products) {
-		// 	if (product.name === prodName) {
-		// 		product.quantity = +quantity;
-		// 	}
-		// }
-		console.log(target.parentNode);
+		const currentLi = target.parentNode;
+		const currentProductName = currentLi.firstElementChild.textContent.trim();
+
+		for (const product of products) {
+			if (product.name === currentProductName) {
+				product.quantity = +target.value;
+			}
+		}
 	}
-
-	console.log(products);
 });
-
-// function changeChecked(product) {}
 
 function showAllProducts(arr, element) {
 	clearList(productsList);
@@ -87,6 +85,7 @@ function createElement(obj) {
 							type="number"
 							class="product__quantity text-center"
 							value=${obj.quantity}
+							min=1
 						/>
     </li>
   `;
@@ -124,10 +123,10 @@ function createNewProduct(name) {
 	};
 }
 
-function render(arr, element) {
+function render(arr, ul) {
 	arr.forEach(item => {
 		if (item.visible === true) {
-			element.insertAdjacentHTML('beforeend', createElement(item));
+			ul.insertAdjacentHTML('beforeend', createElement(item));
 		}
 	});
 }
