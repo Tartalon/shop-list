@@ -18,6 +18,12 @@ li {
 	background-color: #9bf5ef;
 }
 
+@media only screen and (max-width: 767px) {
+	.form__input-wrapper {
+		margin-bottom: 20px;
+	}
+}
+
 .form__input {
 	font-size: 1.3em;
 }
