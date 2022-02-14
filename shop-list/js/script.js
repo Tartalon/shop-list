@@ -54,12 +54,14 @@ productsList.addEventListener('click', e => {
 		const currentProductName = currentLi.firstElementChild.textContent.trim();
 
 		for (const product of products) {
-			if (product.name === currentProductName) {
-				product.quantity = +target.value;
-			}
+			target.addEventListener('input', () => {
+				if (product.name === currentProductName) {
+					product.quantity = +target.valueAsNumber;
+				}
+			});
+			setStorage(products);
 		}
 	}
-	setStorage(products);
 });
 
 function showAllProducts(arr, element) {
