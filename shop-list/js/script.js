@@ -23,6 +23,7 @@ if (sessionStorage.getItem('products')) {
 
 allButton.addEventListener('click', () => {
 	showAllProducts(sortsProducts(products), productsList);
+	setStorage(products);
 });
 
 addButton.addEventListener('click', e => {
